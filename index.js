@@ -22,13 +22,10 @@ function mainQuestions() {
           'View all employees',
           'View all roles',
           'View all departments',
-          // 'View all employees by department',
-          // 'View all employees by selected manager',
           'Add a department',
           'Add a role',
           'Add an employee',
           'Update an employee role',
-          // 'See total annual payroll',
           'Quit program',
         ],
       },
@@ -42,7 +39,7 @@ function mainQuestions() {
       } else if (data.question === 'View all departments') {
         viewAllDepartments();
       } else if (data.question === 'Add a department') {
-        addADepartment(); 
+        addADepartment();
       } else if (data.question === 'Add a role') {
         addRole();
       } else if (data.question === 'Add an employee') {
@@ -144,57 +141,73 @@ function addRole() {
 }
 
 function addEmployee() {
-  const departments = [];
+ const employees = []
   connection
     .promise()
-    .query('SELECT * FROM department')
+    .query('SELECT * FROM employee')
     .then(([data, other]) => {
       for (i = 0; i < data.length; i++) {
         var choice = {
           name: data[i].first_name,
           last: data[i].last_name,
           value: data[i].id,
+          role: data[i].role_name,
+          mId: data[i].manager_name,
         };
-        departments.push(choice);
+        employees.push(choice);
       }
-      return connection.promise().query('SELECT * FROM department');
+      return connection.promise().query('SELECT * FROM employee');
     })
     .then(([data, other]) => {
       for (i = 0; i < data.length; i++) {
         var choice = {
-          name: data[i].name,
-          value: data[i].id,
+          first: data[i].name
         };
-        departments.push(choice);
+        employees.push(choice);
       }
       return inquirer.prompt([
         {
           type: 'input',
-          name: 'title',
-          message: 'What is the roles title?',
+          name: 'first_name',
+          message: 'What is the employees first name?',
         },
         {
           type: 'input',
-          name: 'salary',
-          message: 'What is the roles salary?',
+          name: 'last_name',
+          message: 'What is the employees last name?',
         },
         {
           type: 'list',
-          name: 'department_id',
-          message: 'What is the department for this role?',
-          choices: departments,
+          name: 'role_name',
+          message: 'What is this employees role?',
+          choices: [
+            'Sales Lead',
+            'Salesperson',
+            'Lead Engineer',
+            'Software Engineer',
+            'Account Manager',
+            'Accountant',
+            'Legal Team Lead',
+          ],
+        },
+        {
+          type: 'list',
+          name: 'manager_name',
+          message: 'Who is this employees manager?',
+          choices: employees,
         },
       ]);
     })
     .then((answers) => {
       console.log(answers);
-      return connection.promise().query('INSERT INTO role SET ?', answers);
+      return connection.promise().query('INSERT INTO employee SET ?', answers);
     })
     .then(() => {
-      console.log('Role Added');
+      console.log('Employee Added');
       mainQuestions();
     })
     .catch((err) => console.log(err));
 }
 
 mainQuestions();
+
