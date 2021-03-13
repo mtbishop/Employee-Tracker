@@ -148,23 +148,18 @@ function addEmployee() {
     .then(([data, other]) => {
       for (i = 0; i < data.length; i++) {
         var choice = {
-          name: data[i].first_name,
-          last: data[i].last_name,
+          name: data[i].first_name + ' ' + data[i].last_name,
           value: data[i].id,
           role: data[i].role_name,
           mId: data[i].manager_name,
         };
         employees.push(choice);
       }
-      return connection.promise().query('SELECT * FROM employee');
+      console.log(employees);
+      return [data, other];
     })
-    .then(([data, other]) => {
-      for (i = 0; i < data.length; i++) {
-        var choice = {
-          first: data[i].name
-        };
-        employees.push(choice);
-      }
+    .then(() => {
+
       return inquirer.prompt([
         {
           type: 'input',

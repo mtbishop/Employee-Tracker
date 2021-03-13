@@ -32,16 +32,12 @@ VALUES ('Beck', 'Nerve', 'Legal Team Lead', NULL );
 
 --Auto populate roll table
 INSERT INTO role (title, salary, department_id)
-VALUES ('Sales Lead', 50000, 1);
-INSERT INTO role (title, salary, department_id)
-VALUES ('Salesperson', 35000, 2);
-INSERT INTO role (title, salary, department_id)
-VALUES ('Lead Engineer', 110000, 3);
-INSERT INTO role (title, salary, department_id)
-VALUES ('Software Engineer', 90000, 4);
-INSERT INTO role (title, salary, department_id)
-VALUES ('Account Manager', 70000, 5);
-INSERT INTO role (title, salary, department_id)
-VALUES ('Accountant', 40000, 6);
-INSERT INTO role (title, salary, department_id)
-VALUES ('Legal Team Lead', 85000, 7);
+VALUES ('Sales Lead', 50000, 1), 
+('Salesperson', 35000, 1), 
+('Lead Engineer', 110000, 2),
+ ('Software Engineer', 90000, 2), 
+ ('Account Manager', 70000, 3), 
+ ('Accountant', 40000, 3), 
+ ('Legal Team Lead', 85000, 4);
+
+
