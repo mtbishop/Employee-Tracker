@@ -44,6 +44,8 @@ function mainQuestions() {
         addRole();
       } else if (data.question === 'Add an employee') {
         addEmployee();
+      } else if (data.question === 'Update an employee role') {
+        updateEmployeeRole();
       }
     });
 }
@@ -141,7 +143,7 @@ function addRole() {
 }
 
 function addEmployee() {
- const employees = []
+  const employees = [];
   connection
     .promise()
     .query('SELECT * FROM employee')
@@ -155,11 +157,9 @@ function addEmployee() {
         };
         employees.push(choice);
       }
-      console.log(employees);
       return [data, other];
     })
     .then(() => {
-
       return inquirer.prompt([
         {
           type: 'input',
@@ -203,6 +203,58 @@ function addEmployee() {
     })
     .catch((err) => console.log(err));
 }
+function updateEmployeeRole() {
+  const employees = [];
+  connection
+    .promise()
+    .query('SELECT * FROM employee')
+    .then(([data, other]) => {
+      for (i = 0; i < data.length; i++) {
+        var choice = {
+          name: data[i].first_name + ' ' + data[i].last_name,
+          value: data[i].id,
+          role: data[i].role_name,
+          mId: data[i].manager_name,
+        };
+        employees.push(choice);
+      }
+      console.log(employees);
+      return [data, other];
+    })
+    .then(() => {
+      return inquirer.prompt([
+        {
+          type: 'list',
+          name: 'first_name',
+          message: 'Which employee would you like to update?',
+          choices: employees,
+        },
+      ]);
+    })
+    .then(async () => {
+      const rolesArray = await connection
+        .promise()
+        .query('SELECT DISTINCT title FROM role')
+        .then(([data, other]) => {
+          const roles = [];
+          for (i = 0; i < data.length; i++) {
+            roles.push(data[i].title);
+          }
+          return roles;
+        });
+      console.log(rolesArray);
+      return rolesArray;
+    })
+    .then((roles) => {
+      return inquirer.prompt([
+        {
+          type: 'list',
+          name: 'role_name',
+          message: 'Which role would you like to update this employee to?',
+          choices: roles,
+        },
+      ]);
+    });
+}
 
 mainQuestions();
-
