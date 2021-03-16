@@ -103,7 +103,6 @@ function addADepartment() {
         .query('INSERT INTO department SET ?', answers);
     })
     .then(([data]) => {
-      console.log(data);
       console.log('Department Added');
       mainQuestions();
     })
