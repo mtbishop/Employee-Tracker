@@ -1,3 +1,5 @@
+// Dependencies
+
 const mysql = require('mysql2');
 const inquirer = require('inquirer');
 require('dotenv').config();
@@ -11,6 +13,7 @@ connection.connect((err) => {
   if (err) throw err;
 });
 
+// Function for main prompt of questions
 function mainQuestions() {
   inquirer
     .prompt([
@@ -52,6 +55,7 @@ function mainQuestions() {
     });
 }
 
+// Displays tables of employees
 function viewAllEmployees() {
   connection
     .promise()
@@ -61,6 +65,8 @@ function viewAllEmployees() {
       mainQuestions();
     });
 }
+
+// Displays all available roles
 function viewAllRoles() {
   connection
     .promise()
@@ -70,6 +76,8 @@ function viewAllRoles() {
       mainQuestions();
     });
 }
+
+// Displays all available departments
 function viewAllDepartments() {
   connection
     .promise()
@@ -79,6 +87,8 @@ function viewAllDepartments() {
       mainQuestions();
     });
 }
+
+// Function for prompt that lets you add a department to the list of available departments
 function addADepartment() {
   inquirer
     .prompt([
@@ -101,6 +111,7 @@ function addADepartment() {
     .catch((err) => console.log(err));
 }
 
+// Function for prompt that lets you add a role to the list of available roles
 function addRole() {
   const departments = [];
   connection
@@ -144,6 +155,7 @@ function addRole() {
     .catch((err) => console.log(err));
 }
 
+// Function for prompt that lets you add an employee to the available list of employees
 function addEmployee() {
   const employees = [];
   connection
@@ -205,7 +217,10 @@ function addEmployee() {
     })
     .catch((err) => console.log(err));
 }
+
+// Function that allows you to update the role of an employee from the available employee list
 function updateEmployeeRole() {
+  // Array of employees imported from employee table
   const employees = [];
   connection
     .promise()
@@ -215,12 +230,9 @@ function updateEmployeeRole() {
         var choice = {
           name: data[i].first_name + ' ' + data[i].last_name,
           value: data[i].id,
-          role: data[i].role_name,
-          mId: data[i].manager_name,
         };
         employees.push(choice);
       }
-      console.log(employees);
     })
     .then(() => {
       return inquirer.prompt([
@@ -243,7 +255,6 @@ function updateEmployeeRole() {
           }
           return roles;
         });
-      console.log(rolesArray);
       return [rolesArray, answer];
     })
     .then(([roles, answer1]) => {
@@ -270,10 +281,12 @@ function updateEmployeeRole() {
     });
 }
 
+// Function that terminates the prompt of main questions
 function quit() {
   connection.end();
   console.log('Thank you for using the employee tracker');
   process.exit();
 }
 
+// Initiates first prompt of questions
 mainQuestions();
