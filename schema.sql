@@ -19,25 +19,8 @@ CREATE TABLE employee (
   role_name VARCHAR(30) NOT NULL,
   manager_name VARCHAR(30)
 );
-
--- Auto populate employees table
-INSERT INTO employee (first_name, last_name, role_name, manager_name)
-VALUES ('Jeff', 'Berg', 'Account Manager', 'Beck Nerve');
-INSERT INTO employee (first_name, last_name, role_name, manager_name)
-VALUES ('Harold', 'Smith', 'Salesperson', 'Johnson Johnson');
-INSERT INTO employee (first_name, last_name, role_name, manager_name)
-VALUES ('Johnson', 'Johnson', 'Sales Lead', 'Beck Nerve');
-INSERT INTO employee (first_name, last_name, role_name, manager_name)
-VALUES ('Beck', 'Nerve', 'Legal Team Lead', NULL );
-
---Auto populate roll table
-INSERT INTO role (title, salary, department_id)
-VALUES ('Sales Lead', 50000, 1), 
-('Salesperson', 35000, 1), 
-('Lead Engineer', 110000, 2),
- ('Software Engineer', 90000, 2), 
- ('Account Manager', 70000, 3), 
- ('Accountant', 40000, 3), 
- ('Legal Team Lead', 85000, 4);
-
-
+INSERT INTO department (name)
+VALUES ('Sales'),
+('Engineering'),
+('Accounting'),
+('Legal');

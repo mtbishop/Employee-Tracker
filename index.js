@@ -210,7 +210,7 @@ function updateEmployeeRole() {
   connection
     .promise()
     .query('SELECT * FROM employee')
-    .then(([data, other]) => {
+    .then(([data]) => {
       for (i = 0; i < data.length; i++) {
         var choice = {
           name: data[i].first_name + ' ' + data[i].last_name,
@@ -221,25 +221,22 @@ function updateEmployeeRole() {
         employees.push(choice);
       }
       console.log(employees);
-      return data;
     })
-    .then((data) => {
-      return inquirer
-        .prompt([
-          {
-            type: 'list',
-            name: 'first_name',
-            message: 'Which employee would you like to update?',
-            choices: employees,
-          },
-        ])
-        .then((answer) => [data, answer]);
+    .then(() => {
+      return inquirer.prompt([
+        {
+          type: 'list',
+          name: 'first_name',
+          message: 'Which employee would you like to update?',
+          choices: employees,
+        },
+      ]);
     })
-    .then(async ([data1, answer1]) => {
+    .then(async (answer) => {
       const rolesArray = await connection
         .promise()
         .query('SELECT DISTINCT title FROM role')
-        .then(([data, other]) => {
+        .then(([data]) => {
           const roles = [];
           for (i = 0; i < data.length; i++) {
             roles.push(data[i].title);
@@ -247,9 +244,9 @@ function updateEmployeeRole() {
           return roles;
         });
       console.log(rolesArray);
-      return [rolesArray, data1, answer1];
+      return [rolesArray, answer];
     })
-    .then(([roles, data1, answer1]) => {
+    .then(([roles, answer1]) => {
       return inquirer
         .prompt([
           {
@@ -261,11 +258,12 @@ function updateEmployeeRole() {
         ])
         .then((answer2) => {
           connection.query(
-            'UPDATE employee SET role_name = ? WHERE first_name = ?',
+            'UPDATE employee SET role_name = ? WHERE id = ?',
             [answer2.role_name, answer1.first_name],
             (err, res) => {
               if (err) throw err;
               else console.log('Role has been successfully changed');
+              mainQuestions();
             }
           );
         });
