@@ -18,7 +18,13 @@ Program used to manage employees roles, managers, departments, and salaries.
 
 ### Installation
 
-Installation video (insert video here) When file is opened in VS code, also open MySQL and run the seeds and schema provided (pic1). After that use the integrated terminal to run the index.js by typing "node index.js". Then you will be prompted with a list of options (pic2). After you choose an option you will either be provided a table of the requested data or if you are adding or updating a feature you will be prompted again with questions partaining to that query (pic3). If you would like to view your changes you can choose the prompt to view which table you would like. (pic4)
+Installation video (insert video here) When file is opened in VS code, also open MySQL and run the seeds and schema provided. ![demo pic 1](https://github.com/mtbishop/Employee-Tracker/blob/main/Assets/pic1.PNG)
+
+After that use the integrated terminal to run the index.js by typing "node index.js". Then you will be prompted with a list of options. ![demo pic 2](https://github.com/mtbishop/Employee-Tracker/blob/main/Assets/pic2.PNG) 
+
+After you choose an option you will either be provided a table of the requested data or if you are adding or updating a feature you will be prompted again with questions partaining to that query. ![demo pic 3](https://github.com/mtbishop/Employee-Tracker/blob/main/Assets/pic3.PNG) 
+
+ If you would like to view your changes you can choose the prompt to view which table you would like. ![demo pic 4](https://github.com/mtbishop/Employee-Tracker/blob/main/Assets/pic4.PNG) 
 
 ### Testing
 

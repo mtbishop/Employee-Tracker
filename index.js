@@ -34,7 +34,6 @@ function mainQuestions() {
       },
     ])
     .then((data) => {
-      console.log();
       if (data.question === 'View all employees') {
         viewAllEmployees();
       } else if (data.question === 'View all roles') {
@@ -145,7 +144,6 @@ function addRole() {
       ]);
     })
     .then((answers) => {
-      console.log(answers);
       return connection.promise().query('INSERT INTO role SET ?', answers);
     })
     .then(() => {
