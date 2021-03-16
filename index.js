@@ -46,6 +46,8 @@ function mainQuestions() {
         addEmployee();
       } else if (data.question === 'Update an employee role') {
         updateEmployeeRole();
+      } else if (data.question === 'Quit program') {
+        quit();
       }
     });
 }
@@ -219,19 +221,21 @@ function updateEmployeeRole() {
         employees.push(choice);
       }
       console.log(employees);
-      return [data, other];
+      return data;
     })
-    .then(() => {
-      return inquirer.prompt([
-        {
-          type: 'list',
-          name: 'first_name',
-          message: 'Which employee would you like to update?',
-          choices: employees,
-        },
-      ]);
+    .then((data) => {
+      return inquirer
+        .prompt([
+          {
+            type: 'list',
+            name: 'first_name',
+            message: 'Which employee would you like to update?',
+            choices: employees,
+          },
+        ])
+        .then((answer) => [data, answer]);
     })
-    .then(async () => {
+    .then(async ([data1, answer1]) => {
       const rolesArray = await connection
         .promise()
         .query('SELECT DISTINCT title FROM role')
@@ -243,18 +247,35 @@ function updateEmployeeRole() {
           return roles;
         });
       console.log(rolesArray);
-      return rolesArray;
+      return [rolesArray, data1, answer1];
     })
-    .then((roles) => {
-      return inquirer.prompt([
-        {
-          type: 'list',
-          name: 'role_name',
-          message: 'Which role would you like to update this employee to?',
-          choices: roles,
-        },
-      ]);
+    .then(([roles, data1, answer1]) => {
+      return inquirer
+        .prompt([
+          {
+            type: 'list',
+            name: 'role_name',
+            message: 'Which role would you like to update this employee to?',
+            choices: roles,
+          },
+        ])
+        .then((answer2) => {
+          connection.query(
+            'UPDATE employee SET role_name = ? WHERE first_name = ?',
+            [answer2.role_name, answer1.first_name],
+            (err, res) => {
+              if (err) throw err;
+              else console.log('Role has been successfully changed');
+            }
+          );
+        });
     });
+}
+
+function quit() {
+  connection.end();
+  console.log('Thank you for using the employee tracker');
+  process.exit();
 }
 
 mainQuestions();
