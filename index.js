@@ -166,7 +166,7 @@ function addEmployee() {
         var choice = {
           name: data[i].first_name + ' ' + data[i].last_name,
           value: data[i].id,
-          role: data[i].role_name,
+          role: data[i].role_id,
           mId: data[i].manager_id,
         };
         employees.push(choice);
@@ -201,7 +201,7 @@ function addEmployee() {
         },
         {
           type: 'list',
-          name: 'role_name',
+          name: 'role_id',
           message: 'What is this employees role?',
           choices: roles,
         },
