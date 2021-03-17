@@ -11,6 +11,8 @@ const connection = mysql.createConnection({
 });
 connection.connect((err) => {
   if (err) throw err;
+  // Initiates first prompt of questions after connection as been made
+  mainQuestions();
 });
 
 // Function for main prompt of questions
@@ -285,5 +287,3 @@ function quit() {
   process.exit();
 }
 
-// Initiates first prompt of questions
-mainQuestions();
