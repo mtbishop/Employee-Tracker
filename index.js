@@ -256,26 +256,31 @@ function updateEmployeeRole() {
         .then(([data]) => {
           const roles = [];
           for (i = 0; i < data.length; i++) {
-            roles.push(data[i].title);
+            var choice = {
+              name: data[i].title,
+              value: data[i].id
+            }
+            roles.push(choice);
           }
           return roles;
         });
+        console.log(rolesArray)
       return [rolesArray, answer];
     })
-    .then(([roles, answer1]) => {
+    .then(([roles, employee]) => {
       return inquirer
         .prompt([
           {
             type: 'list',
-            name: 'title',
+            name: 'role_id',
             message: 'Which role would you like to update this employee to?',
             choices: roles,
           },
         ])
-        .then((answer2) => {
+        .then((updatedRole) => {
           connection.query(
             'UPDATE employee SET role_id = ? WHERE id = ?',
-            [answer2.role_id, answer1.first_name],
+            [updatedRole.role_id, employee.first_name],
             (err, res) => {
               if (err) throw err;
               else console.log('Role has been successfully changed');
