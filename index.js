@@ -252,7 +252,7 @@ function updateEmployeeRole() {
     .then(async (answer) => {
       const rolesArray = await connection
         .promise()
-        .query('SELECT DISTINCT title FROM role')
+        .query('SELECT * FROM role')
         .then(([data]) => {
           const roles = [];
           for (i = 0; i < data.length; i++) {
@@ -267,15 +267,15 @@ function updateEmployeeRole() {
         .prompt([
           {
             type: 'list',
-            name: 'role_name',
+            name: 'title',
             message: 'Which role would you like to update this employee to?',
             choices: roles,
           },
         ])
         .then((answer2) => {
           connection.query(
-            'UPDATE employee SET role_name = ? WHERE id = ?',
-            [answer2.role_name, answer1.first_name],
+            'UPDATE employee SET role_id = ? WHERE id = ?',
+            [answer2.role_id, answer1.first_name],
             (err, res) => {
               if (err) throw err;
               else console.log('Role has been successfully changed');
