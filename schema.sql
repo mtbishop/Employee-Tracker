@@ -17,7 +17,7 @@ CREATE TABLE employee (
   first_name VARCHAR(30) NOT NULL,
   last_name VARCHAR(30) NOT NULL,
   role_name VARCHAR(30) NOT NULL,
-  manager_name VARCHAR(30)
+  manager_id INT
 );
 INSERT INTO department (name)
 VALUES ('Sales'),

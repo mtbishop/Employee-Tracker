@@ -1,8 +1,8 @@
 -- Auto populate employees table
-INSERT INTO employee (first_name, last_name, role_name, manager_name)
-VALUES ('Jeff', 'Berg', 'Account Manager', 'Beck Nerve'),
-('Harold', 'Smith', 'Salesperson', 'Johnson Johnson'),
-('Johnson', 'Johnson', 'Sales Lead', 'Beck Nerve'),
+INSERT INTO employee (first_name, last_name, role_name, manager_id)
+VALUES ('Jeff', 'Berg', 'Account Manager', 1),
+('Harold', 'Smith', 'Salesperson', 2),
+('Johnson', 'Johnson', 'Sales Lead', 3),
 ('Beck', 'Nerve', 'Legal Team Lead', NULL );
 -- Auto populate roll table
 INSERT INTO role (title, salary, department_id)

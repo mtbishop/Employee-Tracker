@@ -157,6 +157,7 @@ function addRole() {
 // Function for prompt that lets you add an employee to the available list of employees
 function addEmployee() {
   const employees = [];
+  const roles = [];
   connection
     .promise()
     .query('SELECT * FROM employee')
@@ -166,12 +167,26 @@ function addEmployee() {
           name: data[i].first_name + ' ' + data[i].last_name,
           value: data[i].id,
           role: data[i].role_name,
-          mId: data[i].manager_name,
+          mId: data[i].manager_id,
         };
         employees.push(choice);
       }
       return [data, other];
     })
+      connection
+      .promise()
+      .query('SELECT * FROM role')
+      .then(([data1, other]) => {
+        for (x = 0; x < data1.length; x++) {
+          var choice1 = {
+            name: data1[x].title,
+            value: data1[x].id,
+          };
+          roles.push(choice1);
+        }
+        return [data1, other]
+      })
+    
     .then(() => {
       return inquirer.prompt([
         {
@@ -188,26 +203,17 @@ function addEmployee() {
           type: 'list',
           name: 'role_name',
           message: 'What is this employees role?',
-          choices: [
-            'Sales Lead',
-            'Salesperson',
-            'Lead Engineer',
-            'Software Engineer',
-            'Account Manager',
-            'Accountant',
-            'Legal Team Lead',
-          ],
+          choices: roles,
         },
         {
           type: 'list',
-          name: 'manager_name',
+          name: 'manager_id',
           message: 'Who is this employees manager?',
           choices: employees,
         },
       ]);
     })
     .then((answers) => {
-      console.log(answers);
       return connection.promise().query('INSERT INTO employee SET ?', answers);
     })
     .then(() => {
