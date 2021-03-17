@@ -18,7 +18,7 @@ Program used to manage employees roles, managers, departments, and salaries.
 
 ### Installation
 
-Installation video (insert video here) 
+Installation video (https://www.youtube.com/watch?v=bEmzs1nQQlg) 
 
 When file is opened in VS code, also open MySQL and run the seeds and schema provided.
 ![demo pic 1](https://github.com/mtbishop/Employee-Tracker/blob/main/Assets/pic1.PNG)
